@@ -2,7 +2,9 @@ package com.kedar.ace.model
 
 import com.google.gson.annotations.SerializedName
 
-
+/**
+ * API model for Items API
+ */
 data class DataModel(
         @SerializedName("title")
         val mTitle: String? = null,

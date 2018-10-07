@@ -8,6 +8,9 @@ import javax.security.auth.callback.Callback
 
 class ItemRepository : BaseRepository() {
 
+    /**
+     * Get all items form API
+     */
     fun getAllItems(responseNotifier: ResponseNotifier) {
         apiService.getItems().enqueue(object : Callback, retrofit2.Callback<DataModel> {
             override fun onFailure(call: Call<DataModel>?, t: Throwable?) {

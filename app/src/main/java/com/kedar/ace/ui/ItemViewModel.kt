@@ -20,6 +20,9 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
         getItems()
     }
 
+    /**
+     * Get list of items from item repository
+     */
     private fun getItems() {
         itemRepository.getAllItems(object : ResponseNotifier {
             override fun onSuccess(response: Any?) {
@@ -35,6 +38,9 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
+    /**
+     * Get list of items for RecyclerView
+     */
     fun getItemList(): LiveData<DataModel> {
         if (allItems == null) {
             allItems = MutableLiveData()
@@ -43,6 +49,9 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
         return allItems as MutableLiveData<DataModel>
     }
 
+    /**
+     * Clear the data and call the API again for new set of data
+     */
     fun refreshData() {
         allItems?.value = null
         getItems()

@@ -17,6 +17,9 @@ abstract class BaseRepository {
         apiService = getRetrofit().create(ApiService::class.java)
     }
 
+    /**
+     * Returns the Retrofit client with the base URL and converter factory
+     */
     private fun getRetrofit(): Retrofit {
 
         return Retrofit.Builder()
@@ -25,6 +28,9 @@ abstract class BaseRepository {
                 .build()
     }
 
+    /**
+     * Returns the custom Gson instance for converter factory
+     */
     private fun getGson(): Gson {
 
         return GsonBuilder()

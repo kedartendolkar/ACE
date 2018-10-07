@@ -38,6 +38,9 @@ class ItemListAdapter internal constructor(context: Context) : RecyclerView.Adap
         }
     }
 
+    /**
+     * Set items to adapter
+     */
     internal fun setItems(rowEntries: List<RowsEntity>?) {
         mItems = rowEntries
         notifyDataSetChanged()
