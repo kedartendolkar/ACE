@@ -50,10 +50,9 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     /**
-     * Clear the data and call the API again for new set of data
+     * Call the API again for new set of data
      */
     fun refreshData() {
-        allItems?.value = null
         getItems()
     }
 }
