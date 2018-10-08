@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.kedar.ace.R
@@ -27,8 +26,7 @@ class ItemListActivity : AppCompatActivity() {
         val recycler = rec_item_list
         recycler.adapter = adapter
         recycler.layoutManager = LinearLayoutManager(this)
-        recycler.addItemDecoration(DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL))
+        recycler.addItemDecoration(SpacesItemDecorator(resources.getDimension(R.dimen.item_margin).toInt()))
 
         //Set Toolbar
         setSupportActionBar(toolbar_item_list)
@@ -62,6 +60,7 @@ class ItemListActivity : AppCompatActivity() {
             adapter.setItems(it?.mRowsEntity)
 
             //Set toolbar title
+            toolbar_item_list.visibility = View.VISIBLE
             toolbar_item_list.title = it?.mTitle
         })
     }
