@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ACE</string>
     <string name="no_data_found">No Data Found!</string>
+    <string name="no_internet">No internet connection!</string>
     <string name="thumbnail_description">Thumbnail</string>
+    <string name="unknown_error">Something went wrong!</string>
 </resources>

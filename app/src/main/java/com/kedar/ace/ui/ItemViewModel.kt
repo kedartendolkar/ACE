@@ -7,17 +7,20 @@ import android.arch.lifecycle.MutableLiveData
 import com.kedar.ace.data.ItemRepository
 import com.kedar.ace.data.ResponseNotifier
 import com.kedar.ace.model.DataModel
-import retrofit2.Response
+import com.kedar.ace.utils.NO_ERROR
 
 
 class ItemViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val itemRepository: ItemRepository = ItemRepository()
+    private val itemRepository: ItemRepository = ItemRepository(getApplication())
 
     private var allItems: MutableLiveData<DataModel>? = null
 
+    private var error: MutableLiveData<Int>? = null
+
     init {
-        getItems()
+        error = MutableLiveData()
+        error?.value = NO_ERROR
     }
 
     /**
@@ -26,14 +29,15 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
     private fun getItems() {
         itemRepository.getAllItems(object : ResponseNotifier {
             override fun onSuccess(response: Any?) {
-                val body: Any? = (response as Response<*>).body()
-                if (body is DataModel) {
-                    allItems!!.value = body
+                if (response is DataModel) {
+                    allItems!!.value = response
+                    error?.value = NO_ERROR
                 }
             }
 
-            override fun onFailure() {
+            override fun onFailure(errorCode: Int) {
                 allItems!!.value = null
+                error?.value = errorCode
             }
         })
     }
@@ -47,6 +51,13 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
             getItems()
         }
         return allItems as MutableLiveData<DataModel>
+    }
+
+    /**
+     * Get list of items for RecyclerView
+     */
+    fun getError(): LiveData<Int> {
+        return error as MutableLiveData<Int>
     }
 
     /**

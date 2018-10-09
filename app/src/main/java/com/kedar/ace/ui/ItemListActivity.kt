@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.kedar.ace.R
 import com.kedar.ace.model.DataModel
+import com.kedar.ace.utils.NO_ERROR
 import kotlinx.android.synthetic.main.activity_item_list.*
 
 
@@ -41,27 +42,35 @@ class ItemListActivity : AppCompatActivity() {
 
         //Setup ViewModel
         itemViewModel = ViewModelProviders.of(this).get(ItemViewModel::class.java)
-        itemViewModel.getItemList().observe(this, Observer<DataModel> {
+        itemViewModel.getItemList().observe(this, Observer<DataModel> { dataModel ->
             //Stop swipe refresh loader
             swipe_item_list.isRefreshing = false
             //Hide progressbar
             progress_item_list.visibility = View.GONE
 
-            //Hide RecyclerView and show No Data message when no items present
-            if (it?.mRowsEntity == null || it.mRowsEntity.isEmpty()) {
-                txt_no_data_item_list.visibility = View.VISIBLE
-                recycler.visibility = View.GONE
-            } else {
-                txt_no_data_item_list.visibility = View.GONE
-                recycler.visibility = View.VISIBLE
+            dataModel?.let {
+                //Set items to adapter
+                adapter.setItems(it.mRowsEntity)
 
+                //Set toolbar title
+                toolbar_item_list.visibility = View.VISIBLE
+                toolbar_item_list.title = it.mTitle.orEmpty()
             }
-            //Set items to adapter
-            adapter.setItems(it?.mRowsEntity)
+        })
 
-            //Set toolbar title
-            toolbar_item_list.visibility = View.VISIBLE
-            toolbar_item_list.title = it?.mTitle
+        //Hide RecyclerView and show Error message when no items present
+        itemViewModel.getError().observe(this, Observer<Int> { error ->
+            error?.let {
+                if (it != NO_ERROR) {
+                    txt_no_data_item_list.visibility = View.VISIBLE
+                    txt_no_data_item_list.text = com.kedar.ace.data.ErrorHandler().getErrorMessage(this, it)
+                    recycler.visibility = View.GONE
+                    toolbar_item_list.visibility = View.GONE
+                } else {
+                    txt_no_data_item_list.visibility = View.GONE
+                    recycler.visibility = View.VISIBLE
+                }
+            }
         })
     }
 }

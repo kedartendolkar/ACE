@@ -13,5 +13,5 @@ interface ResponseNotifier {
     /**
      * Failure callback for API response
      */
-    fun onFailure()
+    fun onFailure(errorCode: Int)
 }
