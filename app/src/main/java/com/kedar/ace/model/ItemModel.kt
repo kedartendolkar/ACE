@@ -9,7 +9,8 @@ data class DataModel(
         @SerializedName("title")
         val mTitle: String? = null,
         @SerializedName("rows")
-        val mRowsEntity: List<RowsEntity>? = null
+        val mRowsEntity: List<RowsEntity>? = null,
+        var mError: Error? = null
 )
 
 data class RowsEntity(
@@ -19,3 +20,5 @@ data class RowsEntity(
         val mDescription: String,
         @SerializedName("imageHref")
         val mImagehref: String)
+
+data class Error(val errorCode: Int)
