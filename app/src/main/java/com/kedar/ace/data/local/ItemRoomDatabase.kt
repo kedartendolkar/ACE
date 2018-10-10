@@ -14,6 +14,7 @@ abstract class ItemRoomDatabase : RoomDatabase() {
     abstract fun itemDao(): ItemDao
 
     companion object {
+        @Volatile
         private var INSTANCE: ItemRoomDatabase? = null
 
         fun getInstance(context: Context): ItemRoomDatabase? {
@@ -27,11 +28,5 @@ abstract class ItemRoomDatabase : RoomDatabase() {
             }
             return INSTANCE
         }
-
-        fun destroyInstance() {
-            INSTANCE = null
-        }
     }
-
-
 }
