@@ -4,7 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import com.kedar.ace.data.ItemRepository
-import com.kedar.ace.model.DataModel
+import com.kedar.ace.data.local.entity.DataModel
 
 
 class ItemViewModel(application: Application) : AndroidViewModel(application) {
@@ -36,5 +36,9 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun refreshData() {
         getItems()
+    }
+
+    fun destroy() {
+        itemRepository.unRegisterObserver()
     }
 }

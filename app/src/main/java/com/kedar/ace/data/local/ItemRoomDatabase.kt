@@ -5,10 +5,11 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import com.kedar.ace.data.local.dao.ItemDao
-import com.kedar.ace.data.local.entity.Item
+import com.kedar.ace.data.local.entity.DataModel
+import com.kedar.ace.data.local.entity.RowsEntity
 
 
-@Database(entities = [(Item::class)], version = 1, exportSchema = false)
+@Database(entities = [(DataModel::class), (RowsEntity::class)], version = 1, exportSchema = false)
 abstract class ItemRoomDatabase : RoomDatabase() {
     abstract fun itemDao(): ItemDao
 

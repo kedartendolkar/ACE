@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.Toast
 import com.kedar.ace.R
-import com.kedar.ace.model.DataModel
+import com.kedar.ace.data.ErrorHandler
+import com.kedar.ace.data.local.entity.DataModel
 import kotlinx.android.synthetic.main.activity_item_list.*
 
 
@@ -49,23 +51,33 @@ class ItemListActivity : AppCompatActivity() {
 
             dataModel?.let { model ->
                 //Hide RecyclerView and show Error message when no items present
-                if (model.mError != null) {
-                    txt_no_data_item_list.visibility = View.VISIBLE
-                    txt_no_data_item_list.text = com.kedar.ace.data.ErrorHandler().getErrorMessage(this, model.mError?.errorCode)
-                    recycler.visibility = View.GONE
-                    toolbar_item_list.visibility = View.GONE
+                if (model.error != null) {
+                    if (model.rowsEntity == null) {
+                        txt_no_data_item_list.visibility = View.VISIBLE
+                        txt_no_data_item_list.text = ErrorHandler().getErrorMessage(this, model.error?.errorCode)
+                        recycler.visibility = View.GONE
+                        toolbar_item_list.visibility = View.GONE
+                    } else {
+                        Toast.makeText(this, ErrorHandler().getErrorMessage(this, model.error?.errorCode), Toast.LENGTH_SHORT).show()
+                    }
+                    model.error = null
                 } else {
                     txt_no_data_item_list.visibility = View.GONE
                     recycler.visibility = View.VISIBLE
                 }
 
                 //Set items to adapter
-                adapter.setItems(model.mRowsEntity)
+                adapter.setItems(model.rowsEntity)
 
                 //Set toolbar title
                 toolbar_item_list.visibility = View.VISIBLE
-                toolbar_item_list.title = model.mTitle.orEmpty()
+                toolbar_item_list.title = model.title
             }
         })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        itemViewModel.destroy()
     }
 }

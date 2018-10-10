@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.kedar.ace.R
-import com.kedar.ace.model.RowsEntity
+import com.kedar.ace.data.local.entity.RowsEntity
 
 
 class ItemListAdapter internal constructor(context: Context) : RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>() {
@@ -29,12 +29,12 @@ class ItemListAdapter internal constructor(context: Context) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        if (mItems != null) {
-            val current: RowsEntity = mItems!!.get(position)
-            holder.txtTitle.text = current.mTitle
-            holder.txtDescription.text = current.mDescription
+        mItems?.let {
+            val current: RowsEntity = it[position]
+            holder.txtTitle.text = current.title.orEmpty()
+            holder.txtDescription.text = current.description.orEmpty()
 
-            Glide.with(holder.imgThumbnail).load(current.mImagehref).into(holder.imgThumbnail)
+            Glide.with(holder.imgThumbnail).load(current.imagehref.orEmpty()).into(holder.imgThumbnail)
         }
     }
 
