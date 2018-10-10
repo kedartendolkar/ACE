@@ -2,6 +2,7 @@ package com.kedar.ace.data
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.kedar.ace.data.remote.ApiService
 import com.kedar.ace.utils.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

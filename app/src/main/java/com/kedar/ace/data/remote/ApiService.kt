@@ -1,6 +1,6 @@
-package com.kedar.ace.data
+package com.kedar.ace.data.remote
 
-import com.kedar.ace.model.DataModel
+import com.kedar.ace.data.local.entity.DataModel
 import retrofit2.Call
 import retrofit2.http.GET
 
